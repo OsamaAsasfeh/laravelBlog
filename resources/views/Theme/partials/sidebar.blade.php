@@ -1,50 +1,57 @@
+
+@php
+
+  $headerCategories=  App\Models\Category::get();
+  $counter = 1;
+
+@endphp
+
+
+
 <div class="col-lg-4 sidebar-widgets">
     <div class="widget-wrap">
+      <form action="{{ route('subscriber.store') }}" method='post'>
+        @csrf
+    
       <div class="single-sidebar-widget newsletter-widget">
         <h4 class="single-sidebar-widget__title">Newsletter</h4>
         <div class="form-group mt-30">
           <div class="col-autos">
-            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
+            <input type="text" name='email' class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
               onblur="this.placeholder = 'Enter email'">
-          </div>
+        @error('email')
+          <span class="text-danger">{{ $message }}</span>
+        @enderror
+        
+            </div>
         </div>
         <button class="bbtns d-block mt-20 w-100">Subcribe</button>
       </div>
-
+    </form>
       <div class="single-sidebar-widget post-category-widget">
         <h4 class="single-sidebar-widget__title">Catgory</h4>
+        
+        @if (count($headerCategories)>0)
+                  
+         
+        
+        
+       
         <ul class="cat-list mt-20">
+       
+          @foreach ( $headerCategories as $cat)
+          
+         
           <li>
             <a href="#" class="d-flex justify-content-between">
-              <p>Technology</p>
-              <p>(03)</p>
+              <p>{{ $cat->name }}</p>
+              <p>{{ $counter++ }}</p>
             </a>
           </li>
-          <li>
-            <a href="#" class="d-flex justify-content-between">
-              <p>Software</p>
-              <p>(09)</p>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="d-flex justify-content-between">
-              <p>Lifestyle</p>
-              <p>(12)</p>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="d-flex justify-content-between">
-              <p>Shopping</p>
-              <p>(02)</p>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="d-flex justify-content-between">
-              <p>Food</p>
-              <p>(10)</p>
-            </a>
-          </li>
-        </ul>
+          @endforeach
+
+      </ul>
+      @endif
       </div>
 
       <div class="single-sidebar-widget popular-post-widget">
