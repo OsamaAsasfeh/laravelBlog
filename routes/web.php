@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
 
@@ -20,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::controller(Theme::class)->name('theme.')->group(function(){
     Route::get('/','index')->name("index");
-    Route::get('/category','category')->name("category");
+    Route::get('/category/{id}','category')->name("category");
     Route::get('/contact','contact')->name("contact");
-    Route::get('/single-blog','singleBlog')->name("singleBlog");
+    //Route::get('/single-blog','singleBlog')->name("singleBlog");
     // Route::get('/login','login')->name("login");
     
     // Route::get('/register','register')->name("register");
@@ -37,6 +39,9 @@ Route::post('/contact/register',[ContactController::class,'store'])->name('conta
 //     return view('welcome');
 // });
 
+//blog routes
+Route::get('my-blog',[BlogController::class,'myBlogs'])->name("blogs.my-blogs");
+Route::resource('blogs',BlogController::class);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -48,5 +53,9 @@ Route::middleware('auth')->group(function () {
 
 
 });
+//comment routs
+Route::post('/comment/store',[CommentController::class,'store'])->name('comments.store');
+
+
 
 require __DIR__.'/auth.php';

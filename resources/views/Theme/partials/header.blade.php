@@ -12,7 +12,7 @@
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container box_1620">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <a class="navbar-brand logo_h" href="index.html"><img src="{{asset('assets')}}/img/logo.png" alt=""></a>
+          <a class="navbar-brand logo_h" href="index.html"><img  alt="Osama Cms"></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -32,7 +32,7 @@
                   <ul class="dropdown-menu">
                     @foreach ( $headerCategories as $cat)
                     <li class="nav-item">
-                      <a class="nav-link" href="{{ route("theme.category") }}"> {{ $cat->name }}</a></li>
+                      <a class="nav-link" href="{{ route("theme.category",['id'=>$cat->id]) }}"> {{ $cat->name }}</a></li>
 
                     @endforeach
                 </ul>
@@ -42,9 +42,10 @@
             </ul>
             
             <!-- Add new blog -->
-            <a href="#" class="btn btn-sm btn-primary mr-2">Add New</a>
+            @if(Auth::check())
+            <a href="{{ route("blogs.create") }}" class="btn btn-sm btn-primary mr-2">Add New</a>
             <!-- End - Add new blog -->
-
+            @endif
             <ul class="nav navbar-nav navbar-right navbar-social">
               @if(!Auth::check())
               <a href="{{ route("register") }}" class="btn btn-sm btn-warning">Register / Login</a>
@@ -54,11 +55,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">{{ Auth::user()->name }}</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog-details.html">My Blogs</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{ route("blogs.my-blogs") }}">My Blogs</a></li>
                   <li class="nav-item">
-                  <form action="{{ route("logout") }}" method="post">
+                  <form action="{{ route("logout") }}" method="post" id="logout_form">
                   @csrf
-                  <a class="nav-link" href="javascript:$('form').submit()">LogOut</a>
+                  <a class="nav-link" href="javascript:$('form#logout_form').submit()">LogOut</a>
 
                   </form>
                   </li>
